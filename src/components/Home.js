@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {addDoc, collection, getDocs} from 'firebase/firestore'
+import {addDoc, collection, onSnapshot} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
-import { async } from "@firebase/util";
 
 function Home() {
     const [menu, setMenu] = useState([]);
@@ -12,9 +11,9 @@ function Home() {
 
     useEffect(() => {
       const getUsers = async () => {
-        const data = await getDocs(menuCollectionRef)
-        console.log(data)
-        setMenu(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+        onSnapshot(menuCollectionRef, (snaps) => {
+            setMenu(snaps.docs.map((doc) => ({...doc.data(), id: doc.id})))
+        })
       }
       getUsers()
     }, [])
