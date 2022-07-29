@@ -29,7 +29,7 @@ function Home() {
 
         {menu.map((m) => {
             return (
-                <div>
+                <div className="menu-page" key={m.id}>
                     {" "}
                     <h1>
                         Dish: {m.title}
