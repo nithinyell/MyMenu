@@ -17,7 +17,7 @@ function Home() {
         })
       }
       getUsers()
-    }, [])
+    })
 
     const createItem = async() => {
         if (title.length > 0 && price.length > 0) {
