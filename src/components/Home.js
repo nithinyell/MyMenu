@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import {addDoc, collection, onSnapshot} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
 import Promotions from "./Promotions";
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
 
 function Home() {
     const [menu, setMenu] = useState([]);
@@ -19,7 +17,7 @@ function Home() {
         })
       }
       getUsers()
-    }, [])
+    })
 
     const createItem = async() => {
         if (title.length > 0 && price.length > 0) {
