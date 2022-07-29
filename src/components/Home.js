@@ -27,7 +27,7 @@ function Home() {
 
     return (<div className="Home">
         <div>
-            <h1 className="font-link">Order Your Favourite Food</h1>
+            <h1 className="font-link">Arya - Order Your Favourite Food</h1>
             <Promotions />
         </div>
         <div>
