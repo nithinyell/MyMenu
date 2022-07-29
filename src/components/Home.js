@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {addDoc, collection, onSnapshot} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
 import Promotions from "./Promotions";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 function Home() {
     const [menu, setMenu] = useState([]);
@@ -40,10 +42,7 @@ function Home() {
                 return (
                     <div className="menu-page" key={m.id}>
                         <h1 className="font-link">
-                            Dish: {m.title}
-                        </h1>
-                        <h1 className="font-link">
-                            Price: {m.price}
+                            {m.title} - ${m.price}
                         </h1>
                     </div>
                 )

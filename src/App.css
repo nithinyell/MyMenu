@@ -15,7 +15,6 @@
 
 .App-layout {
   background-color: #fd6b02;
-  display: flex;
   font-size: calc(1px + 2vmin);
   color: #000000;
   display: flex;
