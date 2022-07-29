@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {addDoc, collection, onSnapshot} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
+import Promotions from "./Promotions";
 
 function Home() {
     const [menu, setMenu] = useState([]);
@@ -19,27 +20,35 @@ function Home() {
     }, [])
 
     const createItem = async() => {
-        await addDoc(menuCollectionRef, {title, price})
+        if (title.length > 0 && price.length > 0) {
+            await addDoc(menuCollectionRef, {title, price})
+        }
     }
 
     return (<div className="Home">
-        <input placeholder="Title" onChange={(event) => {setTitle(event.target.value)}}></input>
-        <input placeholder="Price" onChange={(event) => {setPrice(event.target.value)}}></input>
-        <button onClick={createItem}>Submit</button>
-
-        {menu.map((m) => {
-            return (
-                <div className="menu-page" key={m.id}>
-                    {" "}
-                    <h1>
-                        Dish: {m.title}
-                    </h1>
-                    <h1>
-                        Price: {m.price}
-                    </h1>
-                </div>
-            )
-        })}
+        <div>
+            <h1 className="font-link">Order Your Favourite Food</h1>
+            <Promotions />
+        </div>
+        <div>
+            <input placeholder="Title" onChange={(event) => { setTitle(event.target.value) }}></input>
+            <input placeholder="Price" onChange={(event) => { setPrice(event.target.value) }}></input>
+            <button onClick={createItem}>Submit</button>
+        </div>    
+        <div>
+            {menu.map((m) => {
+                return (
+                    <div className="menu-page" key={m.id}>
+                        <h1 className="font-link">
+                            Dish: {m.title}
+                        </h1>
+                        <h1 className="font-link">
+                            Price: {m.price}
+                        </h1>
+                    </div>
+                )
+            })}
+        </div>
     </div>)
 }
 
