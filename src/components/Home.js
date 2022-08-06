@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {addDoc, collection, onSnapshot} from 'firebase/firestore'
+import {addDoc, doc, updateDoc, deleteDoc, collection, onSnapshot, getDoc} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
 import Promotions from "./Promotions";
 import save from '../images/save.png'
 import delet from '../images/delet.png'
 import logo from '../images/D4Logo.png'
+import edit from '../images/edit.png'
 
 function Home() {
     const [menu, setMenu] = useState([]);
@@ -30,11 +31,13 @@ function Home() {
     }
 
     const deleteItem = async(id) => {
-        console.log("delete", id)
+        let menuDoc = doc(projectFirestore, "menu", id)
+        await deleteDoc(menuDoc)
     }
 
     const updateitem = async(id, title, price) => {
-
+        let menuDoc = doc(projectFirestore, "menu", id)
+        await updateDoc(menuDoc, {title, price})
     }
 
     return (<div style={{ padding: 20 }}>
@@ -42,7 +45,7 @@ function Home() {
             <div>
                 <div className="App-header">
                     <h1 className="font-link">Order Your Favourite Food</h1>
-                    <img src={logo} alt="Logo" style={{ height: 100, width: 100}} />
+                    <img src={logo} alt="Logo" style={{ height: 100, width: 100 }} />
                 </div>
             </div>
             <div>
@@ -57,13 +60,14 @@ function Home() {
         <div>
             {menu.map((m) => {
                 return (
-                    <div className="" key={m.id}>
+                    <div className="flex-direction-row" key={m.id}>
                         <h3 className="font-link menu-items-fontSize">
                             {m.title} - ${m.price}
+                            <div>
+                                <button src={edit} style={{ height: 25, width: 25, padding: 0 }} alt="" onClick={() => { updateitem(m.id) }}></button>
+                                <button src={delet} style={{ height: 25, width: 25, padding: 0 }} alt="" onClick={() => { deleteItem(m.id) }}></button>
+                            </div>
                         </h3>
-                        <div>
-                            <button src={delet} style={{ height: 25, width: 25, padding: 0 }} alt="" onClick={() => { deleteItem(m.id) }}></button>
-                        </div>
                     </div>
                 )
             })}

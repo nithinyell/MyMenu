@@ -26,6 +26,7 @@
 
 .menu-items-fontSize {
   font-size: 5;
+  flex-direction: row;
 }
 
 .App-header {
