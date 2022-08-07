@@ -1,11 +1,12 @@
 import './App.css';
 import Home from './components/Home';
+import HomeV2 from './components/HomeV2';
 
 function App() {
   return (
     <div className="My Menu">
-        <main className='App-layout'>
-          <Home/>
+        <main className=''>
+          <HomeV2/>
         </main>
     </div>
   );
