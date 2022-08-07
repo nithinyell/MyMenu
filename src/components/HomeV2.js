@@ -56,7 +56,6 @@ export default function App() {
     }
 
     const createItem = async() => {
-		console.log("createItem", title, price, itemAvailable)
         if (title.length > 0 && price.length > 0) {
             await addDoc(menuCollectionRef, {title, price, itemAvailable})
         }
@@ -195,6 +194,7 @@ export default function App() {
 													label="Available"
 													onChange={(event) => {
 														updateItemAvailability(m.id, event.currentTarget.checked)
+														setItemAvailable(m.id, event.currentTarget.checked)
 													}
 													}
 													color='green'
