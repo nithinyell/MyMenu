@@ -194,7 +194,7 @@ export default function App() {
 													label="Available"
 													onChange={(event) => {
 														updateItemAvailability(m.id, event.currentTarget.checked)
-														setItemAvailable(m.id, event.currentTarget.checked)
+														setItemAvailable(event.currentTarget.checked)
 													}
 													}
 													color='green'
