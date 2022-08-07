@@ -216,6 +216,7 @@ export default function Home() {
 								setTitle('')
 								setPrice('')
 								SetId('')
+								setItemAvailable(true)
 								setUpdate(false)
 								setOpened(true);
 							}}
