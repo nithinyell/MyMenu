@@ -19,8 +19,9 @@ import {
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 import {addDoc, doc, updateDoc, deleteDoc, collection, onSnapshot} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
+import Promotions from './Promotions';
 
-export default function App() {
+export default function Home() {
 	const [menu, setMenu] = useState([]);
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
@@ -91,6 +92,7 @@ export default function App() {
 				withGlobalStyles
 				withNormalizeCSS>
 				<div className='App'>
+					<Promotions/>
 					<Modal
 						opened={opened}
 						size={'md'}
@@ -144,7 +146,7 @@ export default function App() {
 									fontFamily: `Greycliff CF, ${theme.fontFamily}`,
 									fontWeight: 900,
 								})}>
-								My Menu
+								My Menu🍴🍛
 							</Title>
 							<ActionIcon
 								color={'blue'}
