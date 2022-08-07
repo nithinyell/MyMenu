@@ -6,7 +6,8 @@ import {
 	Modal,
 	TextInput,
 	Group,
-	ActionIcon
+	ActionIcon,
+	Switch
 } from '@mantine/core';
 import { useState, useRef, useEffect } from 'react';
 import { Edit, MoonStars, Sun, Trash } from 'tabler-icons-react';
@@ -18,14 +19,17 @@ import {
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 import {addDoc, doc, updateDoc, deleteDoc, collection, onSnapshot} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
+import Promotions from './Promotions';
 
-export default function App() {
+export default function Home() {
 	const [menu, setMenu] = useState([]);
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
 	const [id, SetId] = useState(0)
 	const [update, setUpdate] = useState(false);
 	const [opened, setOpened] = useState(false);
+	const [itemAvailable, setItemAvailable] = useState(true);
+
 	const [colorScheme, setColorScheme] = useLocalStorage({
 		key: 'mantine-color-scheme',
 		defaultValue: 'light',
@@ -54,7 +58,7 @@ export default function App() {
 
     const createItem = async() => {
         if (title.length > 0 && price.length > 0) {
-            await addDoc(menuCollectionRef, {title, price})
+            await addDoc(menuCollectionRef, {title, price, itemAvailable})
         }
     }
 
@@ -64,12 +68,16 @@ export default function App() {
     }
 
     const updateitem = async() => {
-		console.log("updateitem", title, price, id)
 		if (title.length > 0 && price.length > 0 && id.length > 0) { 
 			let menuDoc = doc(projectFirestore, "menu", id)
-			await updateDoc(menuDoc, {title, price})
+			await updateDoc(menuDoc, {title, price, itemAvailable})
 		}
     }
+
+	const updateItemAvailability = async(id, itemAvailable) => {
+		let menuDoc = doc(projectFirestore, "menu", id)
+		await updateDoc(menuDoc, {itemAvailable})
+	}
 
 	useEffect(() => {
 		fetchItems()
@@ -84,6 +92,7 @@ export default function App() {
 				withGlobalStyles
 				withNormalizeCSS>
 				<div className='App'>
+					<Promotions/>
 					<Modal
 						opened={opened}
 						size={'md'}
@@ -137,7 +146,7 @@ export default function App() {
 									fontFamily: `Greycliff CF, ${theme.fontFamily}`,
 									fontWeight: 900,
 								})}>
-								My Menu
+								My Menu🍴🍛
 							</Title>
 							<ActionIcon
 								color={'blue'}
@@ -156,32 +165,42 @@ export default function App() {
 									return (
 										<Group position={'apart'}>
 											<Group position={'apart'}>
-												<Text weight={'bold'}>{m.title}</Text>
-												<Text weight={'bold'} color={'dimmed'} size={'md'}>
+												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'}>{m.title}</Text>
+												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'} color={'dimmed'} size={'md'}>
 													₹{m.price}
 												</Text>
 											</Group>
 											<Group position={'center'}>
-											<ActionIcon
-												onClick={() => {
-													setTitle(m.title)
-													setPrice(m.price)
-													SetId(m.id)
-													setUpdate(true)
-													setOpened(true);
-												}}
-												color={colorScheme === 'dark' ? 'indigo' : 'dark'}
-												variant={'transparent'}>
-												<Edit />
-											</ActionIcon>
-											<ActionIcon
-												onClick={() => {
-													deleteItem(m.id);
-												}}
-												color={'red'}
-												variant={'transparent'}>
-												<Trash />
-											</ActionIcon>
+												<ActionIcon
+													onClick={() => {
+														setTitle(m.title)
+														setPrice(m.price)
+														SetId(m.id)
+														setUpdate(true)
+														setOpened(true);
+													}}
+													color={colorScheme === 'dark' ? 'indigo' : 'dark'}
+													variant={'transparent'}>
+													<Edit />
+												</ActionIcon>
+												<ActionIcon
+													onClick={() => {
+														deleteItem(m.id);
+													}}
+													color={'red'}
+													variant={'transparent'}>
+													<Trash />
+												</ActionIcon>
+												<Switch
+													checked={m.itemAvailable}
+													label="Available"
+													onChange={(event) => {
+														updateItemAvailability(m.id, event.currentTarget.checked)
+														setItemAvailable(event.currentTarget.checked)
+													}
+													}
+													color='green'
+												/>
 											</Group>
 										</Group>
 									);
