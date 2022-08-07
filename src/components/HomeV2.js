@@ -185,6 +185,8 @@ export default function App() {
 											</Group>
 										</Group>
 									);
+								} else {
+									return null
 								}
 							})
 						) : (
