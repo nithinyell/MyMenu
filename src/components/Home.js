@@ -19,7 +19,6 @@ import {
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 import {addDoc, doc, updateDoc, deleteDoc, collection, onSnapshot} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
-import Promotions from './Promotions';
 
 export default function Home() {
 	const [menu, setMenu] = useState([]);
@@ -92,7 +91,6 @@ export default function Home() {
 				withGlobalStyles
 				withNormalizeCSS>
 				<div className='App'>
-					<Promotions/>
 					<Modal
 						opened={opened}
 						size={'md'}
