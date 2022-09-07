@@ -149,6 +149,7 @@ export default function Home() {
 							<ActionIcon
 								color={'blue'}
 								onClick={() => toggleColorScheme()}
+								style={{ marginRight: "15%" }}
 								size='lg'>
 								{colorScheme === 'dark' ? (
 									<Sun size={16} />
@@ -161,9 +162,11 @@ export default function Home() {
 							menu.map((m) => {
 								if (m.title) {
 									return (
-										<Group position={'apart'}>
-											<Group position={'apart'}>
+										<Group>
+											<Group style={{ width: "32%" }}>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'}>{m.title}</Text>
+											</Group>
+											<Group style={{ width: "10%" }}>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'} color={'dimmed'} size={'md'}>
 													₹{m.price}
 												</Text>
@@ -221,6 +224,7 @@ export default function Home() {
 								setOpened(true);
 							}}
 							fullWidth
+							style={{ maxWidth: "86%" }}
 							mt={'md'}>
 							Add New Item
 						</Button>
