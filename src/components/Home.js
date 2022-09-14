@@ -138,7 +138,7 @@ export default function Home() {
 						</Group>
 					</Modal>
 					<Container size={550} my={50}>
-						<Group position={'apart'}>
+						<Group position={'apart'} style={{ marginBottom: "20px" }}>
 							<Title
 								sx={theme => ({
 									fontFamily: `Greycliff CF, ${theme.fontFamily}`,
@@ -161,8 +161,8 @@ export default function Home() {
 							menu.map((m) => {
 								if (m.title) {
 									return (
-										<Group position={'apart'}>
-											<Group position={'apart'}>
+										<Group position={'apart'} style={{ gap: "5px", marginBottom: "15px" }}>
+											<Group position={'apart'} style={{ width: "52%" }}>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'}>{m.title}</Text>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'} color={'dimmed'} size={'md'}>
 													₹{m.price}
