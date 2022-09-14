@@ -161,15 +161,16 @@ export default function Home() {
 							menu.map((m) => {
 								if (m.title) {
 									return (
-										<Group position={'apart'} style={{ gap: "5px", marginBottom: "15px" }}>
+										<Group position={'apart'}>
 											<Group position={'apart'} style={{ width: "52%" }}>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'}>{m.title}</Text>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'} color={'dimmed'} size={'md'}>
 													₹{m.price}
 												</Text>
 											</Group>
-											<Group position={'center'}>
+											<Group position={'center'} style={{ display: "contents" }}>
 												<ActionIcon
+													title="Edit Item"
 													onClick={() => {
 														setTitle(m.title)
 														setPrice(m.price)
@@ -182,6 +183,7 @@ export default function Home() {
 													<Edit />
 												</ActionIcon>
 												<ActionIcon
+													title="Delete Item"
 													onClick={() => {
 														deleteItem(m.id);
 													}}
@@ -191,7 +193,7 @@ export default function Home() {
 												</ActionIcon>
 												<Switch
 													checked={m.itemAvailable}
-													label="Available"
+													title="Item Availability"
 													onChange={(event) => {
 														updateItemAvailability(m.id, event.currentTarget.checked)
 														setItemAvailable(event.currentTarget.checked)
