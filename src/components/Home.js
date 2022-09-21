@@ -162,7 +162,7 @@ export default function Home() {
 								if (m.title) {
 									return (
 										<Group position={'apart'}>
-											<Group position={'apart'} style={{ width: "52%" }}>
+											<Group position={'apart'} style={{ width: "55%" }}>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'}>{m.title}</Text>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'} color={'dimmed'} size={'md'}>
 													₹{m.price}
