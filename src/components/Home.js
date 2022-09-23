@@ -172,7 +172,7 @@ export default function Home() {
 							</ActionIcon>
 						</Group>
 						{menu.length > 0 ? (
-							menu.map((m) => {
+							menu.map((m, index) => {
 								if (m.title) {
 									return (
 										<>{index === 0 ? <Group>
