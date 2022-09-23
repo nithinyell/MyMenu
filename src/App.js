@@ -5,7 +5,7 @@ import './App.css';
 import Home from './components/Home';
 import Menu from './components/Menu';
 
-export default () => {
+const App = () => {
 	return (
 		<div className="My Menu">
 			<Route path="/">
@@ -16,4 +16,6 @@ export default () => {
 			</Route>
 		</div>
 	)
-}
+};
+
+export default App;
