@@ -17,17 +17,19 @@ import {
 	ColorSchemeProvider,
 } from '@mantine/core';
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
-import {addDoc, doc, updateDoc, deleteDoc, collection, onSnapshot} from 'firebase/firestore'
+import {addDoc, doc, updateDoc, deleteDoc, collection, onSnapshot, query, orderBy} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
 
 export default function Home() {
 	const [menu, setMenu] = useState([]);
-    const [title, setTitle] = useState("");
-    const [price, setPrice] = useState("");
+    	const [title, setTitle] = useState("");
+	const [category, setCategory] = useState("");
+    	const [price, setPrice] = useState("");
 	const [id, SetId] = useState(0)
 	const [update, setUpdate] = useState(false);
 	const [opened, setOpened] = useState(false);
 	const [itemAvailable, setItemAvailable] = useState(true);
+	let categoryName = "";
 
 	const [colorScheme, setColorScheme] = useLocalStorage({
 		key: 'mantine-color-scheme',
@@ -41,9 +43,11 @@ export default function Home() {
 	useHotkeys([['mod+J', () => toggleColorScheme()]]);
 
 	const itemTitle = useRef('');
+	const itemCategory = useRef('');
 	const itemPrice = useRef('');
 
-    const menuCollectionRef = collection(projectFirestore, "menu")
+    const menuMainCollectionRef = collection(projectFirestore, "menu")
+    const menuCollectionRef = query(menuMainCollectionRef, orderBy("category", "desc"))
 
     useEffect(() => {
       fetchItems()
@@ -57,7 +61,7 @@ export default function Home() {
 
     const createItem = async() => {
         if (title.length > 0 && price.length > 0) {
-            await addDoc(menuCollectionRef, {title, price, itemAvailable})
+            await addDoc(menuMainCollectionRef, { title, category, price, itemAvailable })
         }
     }
 
@@ -69,7 +73,7 @@ export default function Home() {
     const updateitem = async() => {
 		if (title.length > 0 && price.length > 0 && id.length > 0) { 
 			let menuDoc = doc(projectFirestore, "menu", id)
-			await updateDoc(menuDoc, {title, price, itemAvailable})
+			await updateDoc(menuDoc, { title, category, price, itemAvailable })
 		}
     }
 
@@ -108,6 +112,16 @@ export default function Home() {
 							label={'Title'}
 							onChange={(event) => { setTitle(event.target.value) }}
 							error={update ? title : ''}
+							variant={'filled'}
+						/>
+						<TextInput
+							mt={'md'}
+							ref={itemCategory}
+							placeholder={'Item Category'}
+							required
+							label={'Category'}
+							onChange={(event) => { setCategory(event.target.value) }}
+							error={update ? category : ''}
 							variant={'filled'}
 						/>
 						<TextInput
@@ -161,7 +175,12 @@ export default function Home() {
 							menu.map((m) => {
 								if (m.title) {
 									return (
-										<Group position={'apart'}>
+										<>{index === 0 ? <Group>
+											<Text weight={'bold'} style={{ width: "100%", textAlign: "left", fontSize: "18px", textDecoration: "underline", marginTop: "15px" }}>{m.category}<span style={{ display : "none" }}>{categoryName=m.category}</span></Text>
+										</Group> : [
+											categoryName === m.category ? null : <Group>
+											<Text weight={'bold'} style={{ width: "100%", textAlign: "left", fontSize: "18px", textDecoration: "underline", marginTop: "15px" }}>{m.category}<span style={{ display : "none" }}>{categoryName=m.category}</span></Text>
+										</Group>]} <Group position={'apart'}>
 											<Group position={'apart'} style={{ width: "55%" }}>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'}>{m.title}</Text>
 												<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'} color={'dimmed'} size={'md'}>
@@ -173,6 +192,7 @@ export default function Home() {
 													title="Edit Item"
 													onClick={() => {
 														setTitle(m.title)
+														setCategory(m.category)
 														setPrice(m.price)
 														SetId(m.id)
 														setUpdate(true)
@@ -202,7 +222,7 @@ export default function Home() {
 													color='green'
 												/>
 											</Group>
-										</Group>
+										</Group></>
 									);
 								} else {
 									return null
@@ -216,6 +236,7 @@ export default function Home() {
 						<Button
 							onClick={() => {
 								setTitle('')
+								setCategory('')
 								setPrice('')
 								SetId('')
 								setItemAvailable(true)
