@@ -57,7 +57,7 @@ export default function Home() {
 				withGlobalStyles
 				withNormalizeCSS>
 				<div className='App'>
-					<Container size={550} my={50}>
+					<Container size={500} my={50}>
 						<Group position={'apart'} style={{ marginBottom: "20px" }}>
 							<Title
 								style={{ fontSize: "30px" }}
