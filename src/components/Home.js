@@ -7,7 +7,8 @@ import {
 	TextInput,
 	Group,
 	ActionIcon,
-	Switch
+	Switch,
+	Autocomplete
 } from '@mantine/core';
 import { useState, useRef, useEffect } from 'react';
 import { Edit, MoonStars, Sun, Trash } from 'tabler-icons-react';
@@ -17,7 +18,7 @@ import {
 	ColorSchemeProvider,
 } from '@mantine/core';
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
-import {addDoc, doc, updateDoc, deleteDoc, collection, onSnapshot, query, orderBy} from 'firebase/firestore'
+import {addDoc, doc, updateDoc, deleteDoc, collection, onSnapshot, query, orderBy, where} from 'firebase/firestore'
 import {projectFirestore} from '../firebase/Config'
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
 	const [update, setUpdate] = useState(false);
 	const [opened, setOpened] = useState(false);
 	const [itemAvailable, setItemAvailable] = useState(true);
+	const [data, setData] = useState([]);
 	let categoryName = "";
 
 	const [colorScheme, setColorScheme] = useLocalStorage({
@@ -48,6 +50,7 @@ export default function Home() {
 
     const menuMainCollectionRef = collection(projectFirestore, "menu")
     const menuCollectionRef = query(menuMainCollectionRef, orderBy("category", "desc"))
+    const menuCategoryRef = query(menuMainCollectionRef, where("category", "!=", ""));
 
     useEffect(() => {
       fetchItems()
@@ -57,7 +60,15 @@ export default function Home() {
         onSnapshot(menuCollectionRef, (snaps) => {
             setMenu(snaps.docs.map((doc) => ({...doc.data(), id: doc.id})))
         })
+	onSnapshot(menuCategoryRef, (snaps) => {
+		setData(snaps.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+	})
     }
+    
+    let pp = data.filter((ele, ind) => ind === data.findIndex(elem => elem.category === ele.category))
+    const categoryNames = (pp.map(function (d) {
+	return d.category;
+    }))
 
     const createItem = async() => {
         if (title.length > 0 && price.length > 0) {
@@ -114,13 +125,15 @@ export default function Home() {
 							error={update ? title : ''}
 							variant={'filled'}
 						/>
-						<TextInput
+						<Autocomplete
 							mt={'md'}
+							placeholder="Select or Create Category"
+							label="Category"
+							withAsterisk
 							ref={itemCategory}
-							placeholder={'Item Category'}
-							required
-							label={'Category'}
-							onChange={(event) => { setCategory(event.target.value) }}
+							data={categoryNames}
+							value={category}
+							onChange={setCategory}
 							error={update ? category : ''}
 							variant={'filled'}
 						/>
