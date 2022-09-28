@@ -9,10 +9,10 @@ const App = () => {
 	return (
 		<div className="My Menu">
 			<Route path="/">
-				<Home />
+				<Menu />
 			</Route>
 			<Route path="/menu">
-				<Menu />
+				<Home />
 			</Route>
 		</div>
 	)
