@@ -88,7 +88,7 @@ export default function Home() {
 											categoryName === m.category ? null : <Group>
 											<Text weight={'bold'} style={{ width: "100%", textAlign: "left", fontSize: "18px", textDecoration: "underline", marginTop: "15px" }}>{m.category}<span style={{ display : "none" }}>{categoryName=m.category}</span></Text>
 										</Group>]} <Group position={'apart'}>
-												<Group position={'apart'} style={{ width: "100%" }}>
+												<Group position={'apart'} style={{ width: "100%", marginLeft: "20px" }}>
 													<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'}>{m.title}</Text>
 													<Text style={m.itemAvailable ? null : { textDecorationLine: 'line-through' }} weight={'bold'} color={'dimmed'} size={'md'}>
 														₹{m.price}
