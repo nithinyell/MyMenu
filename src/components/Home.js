@@ -52,10 +52,6 @@ export default function Home() {
     const menuCollectionRef = query(menuMainCollectionRef, orderBy("category", "desc"))
     const menuCategoryRef = query(menuMainCollectionRef, where("category", "!=", ""));
 
-    useEffect(() => {
-      fetchItems()
-    })
-
     const fetchItems = async() => {
         onSnapshot(menuCollectionRef, (snaps) => {
             setMenu(snaps.docs.map((doc) => ({...doc.data(), id: doc.id})))
@@ -95,7 +91,7 @@ export default function Home() {
 
 	useEffect(() => {
 		fetchItems()
-	});
+	}, []);
 
 	return (
 		<ColorSchemeProvider
