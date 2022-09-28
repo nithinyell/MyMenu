@@ -90,7 +90,8 @@ export default function Home() {
 	}
 
 	useEffect(() => {
-		fetchItems()
+		fetchItems();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
