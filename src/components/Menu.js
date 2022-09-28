@@ -34,10 +34,6 @@ export default function Home() {
 	const menuMainCollectionRef = collection(projectFirestore, "menu")
 	const menuCollectionRef = query(menuMainCollectionRef, orderBy("category", "desc"))
 
-	useEffect(() => {
-		fetchItems()
-	})
-
 	const fetchItems = async () => {
 		onSnapshot(menuCollectionRef, (snaps) => {
 			setMenu(snaps.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
